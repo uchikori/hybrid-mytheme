@@ -75,6 +75,36 @@ p.is-style-scroll-down::before {
   background-color: var(--wp--preset--color--primary);
   animation: scroll 4s infinite;
 }
+/*投稿エディターの左右に余白を入れる*/
+.is-root-container {
+  padding-right: var(--wp-style-root-padding-right);
+  padding-left: var(--wp-style-root-padding-left);
+}
+.is-root-container :where(.has-global-padding) {
+  padding-right: 0;
+  padding-left: 0;
+}
+.is-root-container > .alignfull {
+  margin-right: calc(var(--wp-style-root-padding-right) * -1);
+  margin-left: calc(var(--wp-style-root-padding-left) * -1);
+}
+.is-root-container :where(.has-global-padding) > .alignfull {
+  margin-right: 0;
+  margin-left: 0;
+}
+/*間隔をカスタマイズする*/
+.wp-site-blocks > header + main {
+  margin-block-start: var(--wp--preset--spacing--70);
+}
+.wp-site-blocks > main + footer {
+  margin-block-start: var(--wp--preset--spacing--80);
+}
+.page .wp-site-blocks > main + footer {
+  margin-block-start: 0;
+}
+main > .mainTitle + .mainBody {
+  margin-block-start: var(--wp--preset--spacing--70);
+}
 @media (max-width: 781px) {
   .wp-block-columns.is-style-reverse {
     flex-direction: column-reverse;

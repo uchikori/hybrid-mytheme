@@ -6,6 +6,24 @@ function mytheme_soppurts() {
 
   //テーマのCSS（style.css）をエディターに読み込む
   add_editor_style('style.css');
+
+  //add_editor_styleを有効化
+  add_theme_support('editor-styles');
+
+  //ページのタイトルの出力を有効化
+  add_theme_support('title-tag');
+
+  //HTML5対応を有効化
+  add_theme_support('html5', array(
+    'style',
+    'script',
+  ));
+
+  //アイキャッチ画像を有効化
+  add_theme_support('post-thumbnails');
+
+  //埋め込みブロックのレスポンシブを有効化
+  add_theme_support('responsive-embeds');
 }
 add_action('after_setup_theme', 'mytheme_soppurts');
 
