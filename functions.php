@@ -30,6 +30,14 @@ add_action('after_setup_theme', 'mytheme_soppurts');
 function mytheme_enqueue(){
   //テーマのCSS(style.css)をフロントに読み込む
   wp_enqueue_style('mytheme_style', get_stylesheet_uri(), array(), filemtime(get_theme_file_path('style.css')));
+
+  // JavaScriptファイルをキューに追加
+  wp_enqueue_script('my-script', get_template_directory_uri().'/assets/js/main.js', array(), null, true);
+
+  // Ajax用のURLをJavaScriptに渡す
+  wp_localize_script('my-script', 'ajax_object', array(
+      'ajax_url' => admin_url('admin-ajax.php')
+  ));
 }
 add_action('wp_enqueue_scripts', 'mytheme_enqueue');
 
@@ -160,3 +168,67 @@ function mytheme_meta(){
   }
 }
 add_action('wp_head', 'mytheme_meta');
+
+// 日付指定のイベントを取得するためのカスタム関数
+function get_events_by_date($date) {
+    $args = array(
+        'post_type'      => 'tribe_events',
+        'post_status'    => 'publish',
+        'meta_query'     => array(
+            array(
+                'key'     => '_EventStartDate',
+                'value'   => $date,
+                'compare' => 'LIKE', // 日付の一部一致
+            )
+        ),
+    );
+    
+    $query = new WP_Query($args);
+    
+    $events = array();
+    if($query->have_posts()) {
+        while($query->have_posts()) {
+            $query->the_post();
+            $events[] = array(
+                'title' => get_the_title(),
+                'link'  => get_permalink(),
+                'date'  => get_the_date(),
+            );
+        }
+    }
+    
+    wp_reset_postdata();
+    
+    return $events;
+}
+
+// REST APIエンドポイントを作成して、JavaScriptからアクセスできるようにする
+add_action('rest_api_init', function() {
+    register_rest_route('my-namespace/v1', '/events/(?P<date>\d{4}-\d{2}-\d{2})', array(
+        'methods'  => 'GET',
+        'callback' => 'get_events_by_date',
+    ));
+});
+
+function load_post_content() {
+    // 投稿IDを取得
+    $post_id = $_POST['post_id'];
+    $post = get_post($post_id);
+
+    // データを取得
+    $title = get_the_title($post);
+    $thumbnail = get_the_post_thumbnail_url($post, 'full');
+    $content = apply_filters('the_content', $post->post_content);
+
+    // JSONで返すデータを構築
+    $response = array(
+        'title' => $title,
+        'thumbnail' => $thumbnail,
+        'content' => $content,
+    );
+
+    // JSON形式で返す
+    wp_send_json($response);
+}
+add_action('wp_ajax_load_post_content', 'load_post_content');
+add_action('wp_ajax_nopriv_load_post_content', 'load_post_content');

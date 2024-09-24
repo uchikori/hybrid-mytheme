@@ -13,6 +13,3 @@
     <header>
       <?php block_template_part('header'); ?>
     </header>
-</body>
-
-</html>
