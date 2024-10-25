@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <main class="is-layout-flow">
   <div class="mainTitle is-layout-constrained has-global-padding">
-    <h1 class="alignwide has-text-align-center has-xx-large-font-size"><?php bloginfo( 'name' ); ?></h1>
+    <h1 class="alignwide has-text-align-center"><?php single_term_title( ); ?></h1>
   </div>
   <div class="mainBody is-layout-constrained has-global-padding">
     <h2 class="alignwide has-text-align-center  is-style-decoration-line">記事一覧</h2>

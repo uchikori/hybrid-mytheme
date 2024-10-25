@@ -24,6 +24,9 @@ function mytheme_soppurts() {
 
   //埋め込みブロックのレスポンシブを有効化
   add_theme_support('responsive-embeds');
+
+  // ブロックベースのテンプレートパーツエディターを有効化
+  add_theme_support( 'block-template-parts' );
 }
 add_action('after_setup_theme', 'mytheme_soppurts');
 
@@ -87,6 +90,13 @@ function mytheme_register_block_styles(){
     array(
       'name' => 'reverse',
       'label' => 'モバイル逆順'
+    )
+  );
+  register_block_style(
+    'core/post-navigation-link',
+    array(
+      'name' => 'reverse',
+      'label' => 'ラベル逆配置'
     )
   );
 }

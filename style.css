@@ -75,6 +75,12 @@ p.is-style-scroll-down::before {
   background-color: var(--wp--preset--color--primary);
   animation: scroll 4s infinite;
 }
+
+/*ラベルの逆配置*/
+.wp-block-post-navigation-link.is-style-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+}
 /*投稿エディターの左右に余白を入れる*/
 .is-root-container {
   padding-right: var(--wp-style-root-padding-right);
@@ -99,7 +105,7 @@ p.is-style-scroll-down::before {
 .wp-site-blocks > main + footer {
   margin-block-start: var(--wp--preset--spacing--80);
 }
-.page .wp-site-blocks > main + footer {
+.page .wp-site-blocks footer {
   margin-block-start: 0;
 }
 main > .mainTitle + .mainBody {
